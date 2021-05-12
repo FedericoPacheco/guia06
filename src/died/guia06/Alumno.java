@@ -8,8 +8,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class Alumno {
-
+public class Alumno implements Comparable<Alumno>
+{
 	private String nombre;
 	private Integer nroLibreta;
 	private List<Curso> cursando;
@@ -66,30 +66,15 @@ public class Alumno {
 		return "[" + nombre + "; " + nroLibreta + "; " + this.creditosObtenidos() + "]";
 	}
 	
-	public void aprobar(Curso c) {
-		//
-	}
-
-	public void inscripcionAceptada(Curso c) {
-		//
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public Integer getNroLibreta() {
-		return nroLibreta;
-	}
-
-	public void setNroLibreta(Integer nroLibreta) {
-		this.nroLibreta = nroLibreta;
-	}
+	public Boolean equals(Alumno otroAlumno) { return nroLibreta.equals(otroAlumno.getNroLibreta()); }
 	
-	
+	public String getNombre() 					  { return nombre; }
+	public void setNombre(String nombre)		  { this.nombre = nombre; }
+	public Integer getNroLibreta() 				  { return nroLibreta; }
+	public void setNroLibreta(Integer nroLibreta) { this.nroLibreta = nroLibreta; }
 
+	public int compareTo(Alumno otroAlumno) 
+	{
+		return nombre.compareTo(otroAlumno.getNombre());
+	}
 }
