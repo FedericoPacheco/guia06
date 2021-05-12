@@ -1,6 +1,12 @@
+// salvacion:
+// https://stackoverflow.com/questions/19696613/getting-jre-system-library-unbound-error-in-build-path
+
 package died.guia06;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class Alumno {
 
@@ -17,7 +23,7 @@ public class Alumno {
 		aprobados = new ArrayList<Curso>();
 	}
 	
-	public int creditosObtenidos() {
+	public Integer creditosObtenidos() {
 		
 		Integer creditosObtenidos = 0;
 		
@@ -34,11 +40,12 @@ public class Alumno {
 	
 	public void aprobarCurso(Curso c)
 	{
-		Integer posicionEnCursando;
+		int posicionEnCursando;
 		Curso cursoAprobado;
+		Comparator <Curso> auxComparator = (Curso c1, Curso c2) -> c1.getId().compareTo(c2.getId());
 		
-		Arrays.sort(cursando, (Curso c1, Curso c2) -> c1.getId().compareTo(c2.getId()));
-		posicionEnCursando = Arrays.binarySearch(cursando, (Curso c1, Curso c2) -> c1.getId().compareTo(c2.getId()));
+		Collections.sort(cursando, auxComparator);
+		posicionEnCursando = Collections.binarySearch(cursando, c, auxComparator);
 		
 		cursoAprobado = cursando.get(posicionEnCursando);
 		aprobados.add(cursoAprobado);
@@ -48,13 +55,13 @@ public class Alumno {
 	public Integer incripcionesEnCicloLectivo(Integer cicloLectivo)
 	{
 		return
-				cursando
-				.stream()
-				.filter((Curso c) -> c.getCicloLectivo().equals(cicloLectivo))
-				.count();
+			(int) cursando
+					.stream()
+					.filter((Curso c) -> c.getCicloLectivo().equals(cicloLectivo))
+					.count();
 	}
 
-	public void toString()
+	public String toString()
 	{
 		return "[" + nombre + "; " + nroLibreta + "; " + this.creditosObtenidos() + "]";
 	}

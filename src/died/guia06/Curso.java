@@ -1,6 +1,7 @@
 package died.guia06;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import died.guia06.util.Registro;
