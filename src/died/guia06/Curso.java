@@ -1,5 +1,6 @@
 package died.guia06;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -68,35 +69,43 @@ public class Curso {
 		{
 			inscriptos.add(a);
 			a.agregarCurso(this);
-			log.registrar(this, "inscribir ",a.toString());
+			
+			try {
+				log.registrar(this, "inscribir ",a.toString());
+			}
+			catch (IOException e) {
+				System.out.println("Error. No se pudo actualizar el registro.");
+			}
 		}
 		
 		return puedeIncribirse;		
 	}
 	
-	public void imprimirInscriptosAlfabeticamente()
-	{
+	public void imprimirInscriptosAlfabeticamente() {
 		this.imprimirInscriptos((Alumno a1, Alumno a2) -> a1.getNombre().compareTo(a2.getNombre()));
 	}
 	
-	public void imprimirInscriptosPorLibretaUniversitaria()
-	{
+	public void imprimirInscriptosPorLibretaUniversitaria() {
 		this.imprimirInscriptos((Alumno a1, Alumno a2) -> a1.getNroLibreta().compareTo(a2.getNroLibreta()));
 	}
 	
-	public void imprimirInscriptosPorCreditosObtenidos()
-	{
+	public void imprimirInscriptosPorCreditosObtenidos() {
 		this.imprimirInscriptos((Alumno a1, Alumno a2) -> a1.creditosObtenidos().compareTo(a2.creditosObtenidos()));
 	}
 	
-	private void imprimirInscriptos(Comparator<Alumno> criterio) 
+	private void imprimirInscriptos(Comparator<Alumno> criterio)
 	{
 		inscriptos
 			.stream()
 			.sorted(criterio)
 			.forEach((Alumno a) -> System.out.println(a.toString()));
 		
-		log.registrar(this, "imprimir listado",this.inscriptos.size()+ " registros ");
+		try {
+			log.registrar(this, "imprimir listado",this.inscriptos.size()+ " registros ");
+		}
+		catch (IOException e) {
+			System.out.println("Error. No se pudo actualizar el registro.");
+		}
 	}
 
 	
