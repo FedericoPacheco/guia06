@@ -25,12 +25,21 @@ public class Curso {
 	
 	private Registro log;
 	
-	public Curso() {
+	public Curso(Integer id, String nombre, Integer cupo, Integer creditos, Integer creditosRequeridos)
+	{
 		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.cupo = cupo;
+		this.creditos = creditos;
+		this.creditosRequeridos = creditosRequeridos;
 		this.inscriptos = new ArrayList<Alumno>();
 		this.log = new Registro();
 	}
 	
+
+	
+
 
 	/**
 	 * Este método, verifica si el alumno se puede inscribir y si es así lo agrega al curso,
@@ -46,17 +55,104 @@ public class Curso {
 	 * @return
 	 */
 	public Boolean inscribir(Alumno a) {
-		log.registrar(this, "inscribir ",a.toString());
-		return false;
+		
+		Boolean puedeIncribirse = false;
+		
+		if (a.creditosObtenidos() >= creditosRequeridos)
+			if (inscriptos.size() + 1 <= cupo)
+				if (a.incripcionesEnCicloLectivo(cicloLectivo) <= 3)
+					puedeIncribirse = true;
+		
+		if (puedeIncribirse)
+		{
+			inscriptos.add(a);
+			a.agregarCurso(this);
+			log.registrar(this, "inscribir ",a.toString());
+		}
+		
+		return puedeIncribirse;		
 	}
 	
+	public void imprimirInscriptosAlfabeticamente()
+	{
+		this.imprimirInscriptos((Alumno a1, Alumno a2) -> a1.getNombre().compareTo(a2.getNombre()));
+	}
 	
-	/**
-	 * imprime los inscriptos en orden alfabetico
-	 */
-	public void imprimirInscriptos() {
+	public void imprimirInscriptosPorLibretaUniversitaria()
+	{
+		this.imprimirInscriptos((Alumno a1, Alumno a2) -> a1.getNroLibreta().compareTo(a2.getNroLibreta()));
+	}
+	
+	public void imprimirInscriptosPorCreditosObtenidos()
+	{
+		this.imprimirInscriptos((Alumno a1, Alumno a2) -> a1.creditosObtenidos().compareTo(a2.creditosObtenidos()));
+	}
+	
+	private void imprimirInscriptos(Comparator<Alumno> criterio) 
+	{
+		inscriptos
+			.stream()
+			.sorted(criterio)
+			.forEach((Alumno a) -> System.out.println(a.toString()));
+		
 		log.registrar(this, "imprimir listado",this.inscriptos.size()+ " registros ");
 	}
 
+	
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public String getNombre() {
+		return nombre;
+	}
 
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Integer getCicloLectivo() {
+		return cicloLectivo;
+	}
+
+	public void setCicloLectivo(Integer cicloLectivo) {
+		this.cicloLectivo = cicloLectivo;
+	}
+
+	public Integer getCupo() {
+		return cupo;
+	}
+
+	public void setCupo(Integer cupo) {
+		this.cupo = cupo;
+	}
+
+	public List<Alumno> getInscriptos() {
+		return inscriptos;
+	}
+
+	public void setInscriptos(List<Alumno> inscriptos) {
+		this.inscriptos = inscriptos;
+	}
+
+	public Integer getCreditos() {
+		return creditos;
+	}
+
+	public void setCreditos(Integer creditos) {
+		this.creditos = creditos;
+	}
+
+	public Integer getCreditosRequeridos() {
+		return creditosRequeridos;
+	}
+
+	public void setCreditosRequeridos(Integer creditosRequeridos) {
+		this.creditosRequeridos = creditosRequeridos;
+	}
 }
