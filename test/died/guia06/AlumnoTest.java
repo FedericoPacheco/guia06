@@ -1,24 +1,98 @@
 package died.guia06;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 
-class AlumnoTest {
-
-	@Test
-	void testCreditosObtenidos() {
-		fail("Not yet implemented");
+class AlumnoTest 
+{
+	Alumno a1, a2, a3;
+	Curso c1, c2;
+	
+	public AlumnoTest()
+	{
+		a1 = new Alumno("Federico Pacheco", 26056);
+		a2 = new Alumno("Camila Lerman", 27000);
+		a3 = new Alumno("Sasha Schmunck", 270001);
+		
+		c1 = new Curso(1, "Señales y sistemas lineales", 2, 3, 0);
+		c2 = new Curso(2, "Electrodinámica cuántica", 10, 5, 3);
 	}
-
+	
 	@Test
-	void testAprobar() {
-		fail("Not yet implemented");
+	void testInscripcion1() 
+	{
+		System.out.println(a1.getNombre() + (c1.inscribirAlumno(a1)? " pudo ": " no pudo ") + "inscribirse al curso " + c1.getNombre());
+		System.out.println(a2.getNombre() + (c1.inscribirAlumno(a2)? " pudo ": " no pudo ") + "inscribirse al curso " + c1.getNombre());
+		System.out.println(a3.getNombre() + (c1.inscribirAlumno(a3)? " pudo ": " no pudo ") + "inscribirse al curso " + c1.getNombre());
+		System.out.println("");
 	}
-
+	
 	@Test
-	void testInscripcionAceptada() {
-		fail("Not yet implemented");
+	void testInscripcion2() 
+	{	
+		System.out.println(a1.getNombre() + (c2.inscribirAlumno(a1)? " pudo ": " no pudo ") + "inscribirse al curso " + c2.getNombre());
+		System.out.println(a2.getNombre() + (c2.inscribirAlumno(a2)? " pudo ": " no pudo ") + "inscribirse al curso " + c2.getNombre());
+		System.out.println(a3.getNombre() + (c2.inscribirAlumno(a3)? " pudo ": " no pudo ") + "inscribirse al curso " + c2.getNombre());
+		System.out.println("");
 	}
-
+	
+	@Test
+	void testAprobar1() 
+	{
+		a1.aprobarCurso(c1);
+		a2.aprobarCurso(c1);
+		//a3.aprobarCurso(c1);
+		System.out.println("");
+	}
+	
+	@Test
+	void testAprobar2() 
+	{
+		a1.aprobarCurso(c2);
+		a2.aprobarCurso(c2);
+		//a3.aprobarCurso(c2);
+		System.out.println("");
+	}
+	
+	@Test
+	void testCreditosObtenidos() 
+	{
+		System.out.println("Créditos de " + a1.getNombre() + ": " + a1.creditosObtenidos());
+		System.out.println("Créditos de " + a2.getNombre() + ": " + a2.creditosObtenidos());
+		System.out.println("Créditos de " + a3.getNombre() + ": " + a3.creditosObtenidos());
+		System.out.println("");
+	}
+	
+	@Test
+	void imprimirInscriptos1() 
+	{
+		System.out.println(c1.getNombre());
+		
+		System.out.println("Alfabéticamente: ");
+		c1.imprimirInscriptosAlfabeticamente();
+		
+		System.out.println("Por número de libreta: ");
+		c1.imprimirInscriptosPorLibretaUniversitaria();
+	
+		System.out.println("Por créditos obtenidos: ");
+		c1.imprimirInscriptosPorCreditosObtenidos();
+	
+		System.out.println("");
+	}
+	
+	@Test
+	void imprimirInscriptos2() 
+	{
+		System.out.println(c2.getNombre());
+		
+		System.out.println("Alfabéticamente: ");
+		c2.imprimirInscriptosAlfabeticamente();
+		
+		System.out.println("Por número de libreta: ");
+		c2.imprimirInscriptosPorLibretaUniversitaria();
+	
+		System.out.println("Por créditos obtenidos: ");
+		c2.imprimirInscriptosPorCreditosObtenidos();
+	
+		System.out.println("");
+	}
 }

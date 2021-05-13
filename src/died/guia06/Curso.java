@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import died.guia06.excepciones.CreditosInsuficientesException;
+import died.guia06.excepciones.CupoCursoCubiertoException;
+import died.guia06.excepciones.CupoDeInscripcionAlumnoAlcanzadoException;
+import died.guia06.excepciones.RegistroAuditoriaException;
 import died.guia06.util.Registro;
 
 public class Curso 
@@ -31,31 +35,44 @@ public class Curso
 		this.log = new Registro();
 	}
 	
-	public Boolean inscribir(Alumno a) {
-		
+	public Boolean inscribirAlumno(Alumno alumno) 
+		   throws 
+		   		CupoDeInscripcionAlumnoAlcanzadoException, 
+		   		CupoCursoCubiertoException, 
+		   		CreditosInsuficientesException, 
+		   		RegistroAuditoriaException 
+	{
 		Boolean puedeIncribirse = false;
 		
-		if (a.creditosObtenidos() >= creditosRequeridos)
+		if (alumno.creditosObtenidos() >= creditosRequeridos)
 			if (inscriptos.size() + 1 <= cupo)
-				if (a.incripcionesEnCicloLectivo(cicloLectivo) <= 3)
+				if (alumno.incripcionesEnCicloLectivo(cicloLectivo) <= 3)
 					puedeIncribirse = true;
+				else
+					throw new CupoDeInscripcionAlumnoAlcanzadoException(alumno, cicloLectivo);
+			else
+				throw new CupoCursoCubiertoException(this);
+		else 
+			throw new CreditosInsuficientesException(alumno, this);
 		
 		if (puedeIncribirse)
 		{
-			inscriptos.add(a);
-			a.agregarCurso(this);
+			inscriptos.add(alumno);
+			alumno.agregarCurso(this);
 			
 			try {
-				log.registrar(this, "inscribir ",a.toString());
+				log.registrar(this, "inscribir ",alumno.toString());
 			}
 			catch (IOException e) {
-				System.out.println("Error. No se pudo actualizar el registro.");
+				throw new RegistroAuditoriaException();
 			}
 		}
 		
 		return puedeIncribirse;		
 	}
 	
+	
+	// comparator hechos con lambda para compactar
 	public void imprimirInscriptosAlfabeticamente() {
 		this.imprimirInscriptos((Alumno a1, Alumno a2) -> a1.getNombre().compareTo(a2.getNombre()));
 	}
@@ -81,19 +98,16 @@ public class Curso
 		}
 	}
 
-	
-	public Integer getId() 										  { return id; }
-	public void setId(Integer id)	 							  {	this.id = id; }
-	public String getNombre() 									  {	return nombre;}
-	public void setNombre(String nombre)						  { this.nombre = nombre; }
-	public Integer getCicloLectivo() 							  { return cicloLectivo; }
-	public void setCicloLectivo(Integer cicloLectivo) 			  {	this.cicloLectivo = cicloLectivo; }
-	public Integer getCupo()									  { return cupo; }
-	public void setCupo(Integer cupo) 							  {	this.cupo = cupo; }
-	public List<Alumno> getInscriptos() 						  { return inscriptos; }
-	public void setInscriptos(List<Alumno> inscriptos)  	      { this.inscriptos = inscriptos; }
-	public Integer getCreditos() 								  { return creditos; }
-	public void setCreditos(Integer creditos) 					  { this.creditos = creditos; }
-	public Integer getCreditosRequeridos() 						  { return creditosRequeridos; }
+	public Integer getId() 										  { return id; 									  }
+	public void setId(Integer id)	 							  {	this.id = id; 								  }
+	public String getNombre() 									  {	return nombre;								  }
+	public void setNombre(String nombre)						  { this.nombre = nombre; 						  }
+	public Integer getCicloLectivo() 							  { return cicloLectivo; 						  }
+	public void setCicloLectivo(Integer cicloLectivo) 			  {	this.cicloLectivo = cicloLectivo; 			  }
+	public Integer getCupo()									  { return cupo; 								  }
+	public void setCupo(Integer cupo) 							  {	this.cupo = cupo;							  }
+	public Integer getCreditos() 								  { return creditos; 							  }
+	public void setCreditos(Integer creditos) 					  { this.creditos = creditos; 					  }
+	public Integer getCreditosRequeridos() 						  { return creditosRequeridos; 					  }
 	public void setCreditosRequeridos(Integer creditosRequeridos) { this.creditosRequeridos = creditosRequeridos; }
 }

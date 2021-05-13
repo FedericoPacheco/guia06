@@ -1,6 +1,3 @@
-// salvacion:
-// https://stackoverflow.com/questions/19696613/getting-jre-system-library-unbound-error-in-build-path
-
 package died.guia06;
 
 import java.util.ArrayList;
@@ -23,8 +20,8 @@ public class Alumno implements Comparable<Alumno>
 		aprobados = new ArrayList<Curso>();
 	}
 	
-	public Integer creditosObtenidos() {
-		
+	public Integer creditosObtenidos() 
+	{
 		Integer creditosObtenidos = 0;
 		
 		for (Curso cursosAprobados: aprobados)
@@ -33,12 +30,12 @@ public class Alumno implements Comparable<Alumno>
 		return creditosObtenidos;
 	}
 	
-	public void agregarCurso(Curso c)
+	public void agregarCurso(Curso c) // No debiera invocarse directamente
 	{
 		cursando.add(c);
 	}
 	
-	public void aprobarCurso(Curso c)
+	public void aprobarCurso(Curso c) // no se esta contemplando que el alumno tiene que haber estado inscripto
 	{
 		int posicionEnCursando;
 		Curso cursoAprobado;
@@ -61,20 +58,12 @@ public class Alumno implements Comparable<Alumno>
 					.count();
 	}
 
-	public String toString()
-	{
-		return "[" + nombre + "; " + nroLibreta + "; " + this.creditosObtenidos() + "]";
-	}
+	public String toString() 				 { return "[" + nombre + "; " + nroLibreta + "; " + this.creditosObtenidos() + "]"; }
+	public Boolean equals(Alumno otroAlumno) { return nroLibreta.equals(otroAlumno.getNroLibreta()); 							}
+	public int compareTo(Alumno otroAlumno)  { return nombre.compareTo(otroAlumno.getNombre());      							}
 	
-	public Boolean equals(Alumno otroAlumno) { return nroLibreta.equals(otroAlumno.getNroLibreta()); }
-	
-	public String getNombre() 					  { return nombre; }
-	public void setNombre(String nombre)		  { this.nombre = nombre; }
-	public Integer getNroLibreta() 				  { return nroLibreta; }
+	public String getNombre() 					  { return nombre; 				  }
+	public void setNombre(String nombre)		  { this.nombre = nombre; 		  }
+	public Integer getNroLibreta() 				  { return nroLibreta; 			  }
 	public void setNroLibreta(Integer nroLibreta) { this.nroLibreta = nroLibreta; }
-
-	public int compareTo(Alumno otroAlumno) 
-	{
-		return nombre.compareTo(otroAlumno.getNombre());
-	}
 }
