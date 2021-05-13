@@ -4,7 +4,7 @@ package died.guia06.excepciones;
 public class RegistroAuditoriaException extends Exception {
 
 	public RegistroAuditoriaException() {
-		super("Error. No se pudo actualizar el registro."));
+		super("Error. No se pudo actualizar el registro.");
 	}
 
 }

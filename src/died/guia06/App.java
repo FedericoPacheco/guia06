@@ -14,13 +14,13 @@ public class App
 		test.imprimirInscriptos1();
 		test.testInscripcion2();
 		
-		TimeUnit.SECONDS.sleep(15);
+		TimeUnit.SECONDS.sleep(5);
 		
 		test.testAprobar1();
 		test.testInscripcion2();
 		test.imprimirInscriptos2();
 		
-		TimeUnit.SECONDS.sleep(15);
+		TimeUnit.SECONDS.sleep(5);
 		
 		test.testCreditosObtenidos();
 		test.testAprobar2();
